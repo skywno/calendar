@@ -1,4 +1,4 @@
-package me.ezra.api.domain.schedule;
+package me.ezra.api.domain.schedule.dto;
 
 import java.time.LocalDateTime;
 

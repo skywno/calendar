@@ -1,6 +1,6 @@
 package me.ezra.api.global.config;
 
-import me.ezra.api.domain.schedule.AuthUser;
+import me.ezra.api.domain.schedule.dto.AuthUser;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

@@ -1,4 +1,4 @@
-package me.ezra.api.domain.login;
+package me.ezra.api.domain.login.application;
 
 import lombok.RequiredArgsConstructor;
 import me.ezra.api.domain.login.dto.LoginReq;

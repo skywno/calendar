@@ -1,6 +1,7 @@
-package me.ezra.api.domain.login;
+package me.ezra.api.domain.login.api;
 
 import lombok.RequiredArgsConstructor;
+import me.ezra.api.domain.login.application.LoginService;
 import me.ezra.api.domain.login.dto.LoginReq;
 import me.ezra.api.domain.login.dto.SignUpReq;
 import org.springframework.http.ResponseEntity;

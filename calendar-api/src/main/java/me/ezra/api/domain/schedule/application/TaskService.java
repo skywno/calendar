@@ -1,6 +1,8 @@
-package me.ezra.api.domain.schedule;
+package me.ezra.api.domain.schedule.application;
 
 import lombok.RequiredArgsConstructor;
+import me.ezra.api.domain.schedule.dto.AuthUser;
+import me.ezra.api.domain.schedule.dto.CreateTaskReq;
 import me.ezra.core.domain.schedule.ScheduleRepository;
 import me.ezra.core.domain.schedule.domain.Schedule;
 import me.ezra.core.domain.user.UserService;
