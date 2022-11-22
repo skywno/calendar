@@ -33,4 +33,8 @@ public class Event {
         return schedule.getTitle();
     }
 
+    public boolean isOverlapped(LocalDateTime startAt, LocalDateTime endAt) {
+        return this.getStartAt().isBefore(endAt) && this.getEndAt().isAfter(startAt);
+    }
+
 }
