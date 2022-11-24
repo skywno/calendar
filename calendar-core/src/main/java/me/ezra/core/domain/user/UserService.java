@@ -34,7 +34,8 @@ public class UserService {
                 .map(user -> user.isMatch(password, bcryptEncryptor) ? user : null);
     }
 
-    public User findByUserId(Long id) {
+    public User findByUserIdOrThrow(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("No User Found"));
     }
+
 }

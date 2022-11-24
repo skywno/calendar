@@ -43,12 +43,12 @@ public class EventService {
                 createEventReq.description(),
                 createEventReq.startAt(),
                 createEventReq.endAt(),
-                userService.findByUserId(authUser.getId()));
+                userService.findByUserIdOrThrow(authUser.getId()));
 
         scheduleRepository.save(eventSchedule);
         createEventReq.participantIds()
                 .stream()
-                .map(userService::findByUserId)
+                .map(userService::findByUserIdOrThrow)
                 .forEach(user -> {
                     final Invitation invitation =
                             invitationRepository.save(new Invitation(eventSchedule, user));

@@ -20,7 +20,7 @@ public class TaskService {
                 req.title(),
                 req.description(),
                 req.taskAt(),
-                userService.findByUserId(authUser.getId()));
+                userService.findByUserIdOrThrow(authUser.getId()));
 
         scheduleRepository.save(taskSchedule);
 

@@ -2,9 +2,11 @@ package me.ezra.api.domain.schedule.api;
 
 import lombok.RequiredArgsConstructor;
 import me.ezra.api.domain.schedule.application.EventService;
+import me.ezra.api.domain.schedule.application.NotificationService;
 import me.ezra.api.domain.schedule.application.TaskService;
 import me.ezra.api.domain.schedule.dto.AuthUser;
 import me.ezra.api.domain.schedule.dto.CreateEventReq;
+import me.ezra.api.domain.schedule.dto.CreateNotificationReq;
 import me.ezra.api.domain.schedule.dto.CreateTaskReq;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ public class ScheduleController {
 
     private final TaskService taskService;
     private final EventService eventService;
+    private final NotificationService notificationService;
 
     @PostMapping("/task")
     public ResponseEntity<Void> createTask(
@@ -37,6 +40,15 @@ public class ScheduleController {
             AuthUser authUser
     ) {
         eventService.create(createEventReq, authUser);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/notification")
+    public ResponseEntity<Void> createNotification(
+            @Valid @RequestBody CreateNotificationReq createNotificationReq,
+            AuthUser authUser
+    ) {
+        notificationService.create(createNotificationReq, authUser);
         return ResponseEntity.ok().build();
     }
 
