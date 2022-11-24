@@ -3,24 +3,23 @@ package me.ezra.api.domain.schedule.api;
 import lombok.RequiredArgsConstructor;
 import me.ezra.api.domain.schedule.application.EventService;
 import me.ezra.api.domain.schedule.application.NotificationService;
+import me.ezra.api.domain.schedule.application.ScheduleQueryService;
 import me.ezra.api.domain.schedule.application.TaskService;
-import me.ezra.api.domain.schedule.dto.AuthUser;
-import me.ezra.api.domain.schedule.dto.CreateEventReq;
-import me.ezra.api.domain.schedule.dto.CreateNotificationReq;
-import me.ezra.api.domain.schedule.dto.CreateTaskReq;
+import me.ezra.api.domain.schedule.dto.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.List;
 
-@RequestMapping
+@RequestMapping("/api/schedules")
 @RestController
 @RequiredArgsConstructor
 public class ScheduleController {
 
+    private final ScheduleQueryService scheduleQueryService;
     private final TaskService taskService;
     private final EventService eventService;
     private final NotificationService notificationService;
@@ -50,6 +49,14 @@ public class ScheduleController {
     ) {
         notificationService.create(createNotificationReq, authUser);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/day")
+    public List<ScheduleDto> getScheduleByDay(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            AuthUser authUser
+    ) {
+        return scheduleQueryService.getScheduleByDay(date == null ? LocalDate.now() : date, authUser);
     }
 
 }

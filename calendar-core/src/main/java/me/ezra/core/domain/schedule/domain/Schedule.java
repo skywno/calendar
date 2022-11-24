@@ -3,8 +3,10 @@ package me.ezra.core.domain.schedule.domain;
 import lombok.*;
 import me.ezra.core.domain.model.BaseEntity;
 import me.ezra.core.domain.user.User;
+import me.ezra.core.global.util.Period;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -84,4 +86,9 @@ public class Schedule extends BaseEntity {
     public Notification toNotification() {
         return new Notification(this);
     }
+
+    public boolean isOverlapped(LocalDate date) {
+        Period period = Period.of(startAt, endAt);
+        return period.isOverlapped(date);
+   }
 }

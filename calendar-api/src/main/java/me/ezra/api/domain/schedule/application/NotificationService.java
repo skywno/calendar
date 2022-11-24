@@ -7,12 +7,14 @@ import me.ezra.core.domain.schedule.ScheduleRepository;
 import me.ezra.core.domain.schedule.domain.Schedule;
 import me.ezra.core.domain.user.User;
 import me.ezra.core.domain.user.UserService;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Service
 public class NotificationService {
 
     private final UserService userService;

@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.ezra.core.domain.model.BaseEntity;
 import me.ezra.core.domain.user.User;
+import me.ezra.core.global.util.Period;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -35,5 +37,9 @@ public class Invitation extends BaseEntity {
 
     public Event getEvent() {
         return schedule.toEvent();
+    }
+
+    public boolean isOverlapped(LocalDate date) {
+        return this.schedule.isOverlapped(date);
     }
 }
