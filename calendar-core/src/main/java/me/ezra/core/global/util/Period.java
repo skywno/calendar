@@ -15,13 +15,16 @@ public class Period {
     }
 
     public static Period of(LocalDateTime startAt, LocalDateTime endAt) {
-        return new Period(startAt, endAt == null ? startAt : endAt);
+        return new Period(
+                startAt,
+                endAt == null ?
+                        LocalDateTime.of(startAt.plusDays(1).toLocalDate(), LocalTime.MIDNIGHT) : endAt);
     }
 
     public static Period of(LocalDate startAt, LocalDate endAt) {
         return new Period(
                 startAt.atStartOfDay(),
-                endAt == null ? startAt.atStartOfDay() : endAt.atStartOfDay()
+                endAt == null ? startAt.plusDays(1).atStartOfDay() : endAt.atStartOfDay()
         );
     }
 
@@ -39,5 +42,9 @@ public class Period {
 
     public boolean isOverlapped(LocalDate date) {
         return isOverlapped(date.atStartOfDay(), LocalDateTime.of(date, LocalTime.MAX));
+    }
+
+    public boolean isOverlapped(Period period) {
+        return isOverlapped(period.startAt, period.endAt);
     }
 }
