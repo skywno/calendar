@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @RequestMapping("/api/schedules")
@@ -51,12 +52,28 @@ public class ScheduleController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/day")
+    @GetMapping(value = "/day")
     public List<ScheduleDto> getScheduleByDay(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             AuthUser authUser
     ) {
         return scheduleQueryService.getScheduleByDay(date == null ? LocalDate.now() : date, authUser);
+    }
+
+    @GetMapping("/week")
+    public List<ScheduleDto> getScheduleByWeek(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startOfWeek,
+            AuthUser authUser
+    ) {
+        return scheduleQueryService.getScheduleByWeek(startOfWeek == null ? LocalDate.now() : startOfWeek, authUser);
+    }
+
+    @GetMapping("/month")
+    public List<ScheduleDto> getScheduleByMonth(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth,
+            AuthUser authUser
+    ) {
+        return scheduleQueryService.getScheduleByMonth(yearMonth == null ? YearMonth.now() : yearMonth, authUser);
     }
 
 }

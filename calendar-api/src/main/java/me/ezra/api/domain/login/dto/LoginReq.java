@@ -1,3 +1,11 @@
 package me.ezra.api.domain.login.dto;
 
-public record LoginReq(String email, String password) { }
+import javax.validation.constraints.NotBlank;
+
+public record LoginReq(
+        @NotBlank
+        String email,
+        @NotBlank
+        String password
+) {
+}

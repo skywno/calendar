@@ -2,6 +2,8 @@ package me.ezra.api.domain.schedule.dto;
 
 import me.ezra.core.global.util.TimeUnit;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -10,7 +12,10 @@ import java.util.stream.IntStream;
 
 
 public record CreateNotificationReq(
+        @NotBlank
         String title,
+
+        @NotNull
         LocalDateTime notifyAt,
         RepeatInfo repeatInfo
 ) {
