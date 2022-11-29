@@ -5,6 +5,8 @@ import me.ezra.api.domain.login.dto.LoginReq;
 import me.ezra.api.domain.login.dto.SignUpReq;
 import me.ezra.core.domain.user.User;
 import me.ezra.core.domain.user.UserService;
+import me.ezra.core.global.exception.CalendarException;
+import me.ezra.core.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -33,7 +35,7 @@ public class LoginService {
         if (user.isPresent()) {
             session.setAttribute(LOGIN_SESSION_KEY, user.get().getId());
         } else {
-            throw new RuntimeException("Password or email not match");
+            throw new CalendarException(ErrorCode.PASSWORD_NOT_MATCH);
         }
     }
 

@@ -1,6 +1,8 @@
 package me.ezra.api.global.config;
 
 import me.ezra.api.domain.schedule.dto.AuthUser;
+import me.ezra.core.global.exception.CalendarException;
+import me.ezra.core.global.exception.ErrorCode;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -28,7 +30,7 @@ public class AuthUserResolver implements HandlerMethodArgumentResolver {
         if (userId != null) {
             return AuthUser.of(userId);
         } else {
-            throw new RuntimeException("Bad request. No Session.");
+            throw new CalendarException(ErrorCode.BAD_REQUEST);
         }
     }
 }

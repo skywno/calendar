@@ -10,6 +10,8 @@ import me.ezra.core.domain.schedule.domain.Invitation;
 import me.ezra.core.domain.schedule.domain.RequestStatus;
 import me.ezra.core.domain.schedule.domain.Schedule;
 import me.ezra.core.domain.user.UserService;
+import me.ezra.core.global.exception.CalendarException;
+import me.ezra.core.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +37,7 @@ public class EventService {
                                 && invitation.getEvent().isOverlapped(createEventReq.startAt(),
                                 createEventReq.endAt())
         )) {
-            throw new RuntimeException("cannot send an invitation. period overlaps");
+            throw new CalendarException(ErrorCode.EVENT_CREATE_OVERLAPPED_PERIOD);
         }
 
         final Schedule eventSchedule = Schedule.event(

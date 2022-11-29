@@ -1,6 +1,8 @@
 package me.ezra.core.domain.user;
 
 import lombok.RequiredArgsConstructor;
+import me.ezra.core.global.exception.CalendarException;
+import me.ezra.core.global.exception.ErrorCode;
 import me.ezra.core.global.util.Encryptor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,7 @@ public class UserService {
     public User create(UserCreateReq request) {
         userRepository.findByEmail(request.email())
                 .ifPresent(user -> {
-                    throw new RuntimeException("User already exists");
+                    throw new CalendarException(ErrorCode.ALREADY_EXISTS_USER);
                 });
         return userRepository.save(
                 User.builder()
@@ -35,7 +37,7 @@ public class UserService {
     }
 
     public User findByUserIdOrThrow(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("No User Found"));
+        return userRepository.findById(id).orElseThrow(() -> new CalendarException(ErrorCode.USER_NOT_FOUND));
     }
 
 }
