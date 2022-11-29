@@ -39,10 +39,6 @@ public class Invitation extends BaseEntity {
         return schedule.toEvent();
     }
 
-    public boolean isOverlapped(LocalDate date) {
-        return this.schedule.isOverlapped(date);
-    }
-
     public boolean isOverlapped(Period period) {
         return this.schedule.isOverlapped(period);
     }
