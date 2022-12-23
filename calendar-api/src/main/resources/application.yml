@@ -21,4 +21,27 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+    defer-datasource-initialization: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          socketFactory.class: javax.net.ssl.SSLSocketFactory
+          auth: true
+          starttls:
+            enable: true
+  sql:
+    init:
+      mode: always
+
+# SQL parameter logging
+logging:
+  level:
+    me.ezra: TRACE
+    org.springframework.web: TRACE

@@ -4,9 +4,10 @@ import lombok.*;
 import me.ezra.core.domain.model.BaseEntity;
 import me.ezra.core.domain.user.User;
 import me.ezra.core.global.util.Period;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -26,6 +27,7 @@ public class Schedule extends BaseEntity {
 
     @JoinColumn(name = "writer_id")
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User writer;
 
     @Enumerated(EnumType.STRING)
@@ -91,4 +93,17 @@ public class Schedule extends BaseEntity {
         Period thisPeriod = Period.of(startAt, endAt);
         return thisPeriod.isOverlapped(otherPeriod);
    }
+
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "id=" + super.getId().toString() +
+                ", startAt=" + startAt +
+                ", endAt=" + endAt +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", writer=" + writer +
+                ", scheduleType=" + scheduleType +
+                '}';
+    }
 }

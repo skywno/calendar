@@ -1,14 +1,16 @@
 package me.ezra.api.domain.schedule.application;
 
 import lombok.RequiredArgsConstructor;
-import me.ezra.api.domain.EmailService;
-import me.ezra.api.domain.schedule.dao.InvitationRepository;
+import me.ezra.api.domain.email.EmailService;
+import me.ezra.api.domain.email.InvitationDetailsForEmail;
+import me.ezra.core.domain.schedule.InvitationRepository;
 import me.ezra.api.domain.schedule.dto.AuthUser;
 import me.ezra.api.domain.schedule.dto.CreateEventReq;
 import me.ezra.core.domain.schedule.ScheduleRepository;
 import me.ezra.core.domain.schedule.domain.Invitation;
 import me.ezra.core.domain.schedule.domain.RequestStatus;
 import me.ezra.core.domain.schedule.domain.Schedule;
+import me.ezra.core.domain.user.User;
 import me.ezra.core.domain.user.UserService;
 import me.ezra.core.global.exception.CalendarException;
 import me.ezra.core.global.exception.ErrorCode;
@@ -30,6 +32,7 @@ public class EventService {
     public void create(CreateEventReq createEventReq, AuthUser authUser) {
 
         final List<Invitation> invitationList = invitationRepository.findAll();
+
         if (invitationList.stream().anyMatch(
                 invitation ->
                         createEventReq.participantIds().contains(invitation.getParticipant().getId())
@@ -46,15 +49,23 @@ public class EventService {
                 createEventReq.startAt(),
                 createEventReq.endAt(),
                 userService.findByUserIdOrThrow(authUser.getId()));
-
         scheduleRepository.save(eventSchedule);
-        createEventReq.participantIds()
-                .stream()
-                .map(userService::findByUserIdOrThrow)
-                .forEach(user -> {
-                    final Invitation invitation =
-                            invitationRepository.save(new Invitation(eventSchedule, user));
-                    emailService.sendInvitation(invitation);
+
+        final List<User> participants =
+                createEventReq.participantIds()
+                        .stream()
+                        .map(userService::findByUserIdOrThrow)
+                        .toList();
+
+        participants.forEach(participant -> {
+                    Invitation invitation = new Invitation(eventSchedule, participant);
+                    invitationRepository.save(invitation);
+                    emailService.sendInvitation(new InvitationDetailsForEmail(
+                            invitation.getId(),
+                            invitation.getParticipant().getEmail(),
+                            participants.stream().map(User::getEmail).toList(),
+                            invitation.getEvent().getTitle(),
+                            invitation.getEvent().getPeriod()));
                 });
 
     }

@@ -13,7 +13,6 @@ public record CreateEventReq(
         String description,
         @NotNull LocalDateTime startAt,
         @NotNull LocalDateTime endAt,
-        @NotNull
-        List<Long> participantIds
+        @NotNull List<Long> participantIds
 
 ) {}

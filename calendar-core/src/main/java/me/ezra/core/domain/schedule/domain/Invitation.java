@@ -1,15 +1,14 @@
 package me.ezra.core.domain.schedule.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.ezra.core.domain.model.BaseEntity;
+import me.ezra.core.domain.schedule.dto.RequestReplyType;
 import me.ezra.core.domain.user.User;
 import me.ezra.core.global.util.Period;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -23,11 +22,14 @@ public class Invitation extends BaseEntity {
 
     @JoinColumn(name = "participant_id")
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User participant;
 
     @Enumerated(EnumType.STRING)
     private RequestStatus requestStatus;
 
+
+    @Builder
     public Invitation(Schedule eventSchedule, User participant) {
         assert eventSchedule.getScheduleType() == ScheduleType.EVENT;
         this.schedule = eventSchedule;
@@ -41,5 +43,14 @@ public class Invitation extends BaseEntity {
 
     public boolean isOverlapped(Period period) {
         return this.schedule.isOverlapped(period);
+    }
+
+    public Invitation reply(RequestReplyType type) {
+        switch (type) {
+            case ACCEPTED -> this.requestStatus = RequestStatus.ACCEPTED;
+            case REJECTED -> this.requestStatus = RequestStatus.REJECTED;
+        }
+
+        return this;
     }
 }

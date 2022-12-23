@@ -1,13 +1,14 @@
-package me.ezra.api;
+package me.ezra.batch;
 
+
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 @SpringBootApplication(scanBasePackages = "me.ezra")
-public class ApiApplication {
+@EnableBatchProcessing
+public class BatchApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ApiApplication.class, args);
+        SpringApplication.run(BatchApplication.class, args);
     }
 }
-

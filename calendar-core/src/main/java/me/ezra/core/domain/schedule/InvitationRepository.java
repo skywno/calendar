@@ -1,4 +1,4 @@
-package me.ezra.api.domain.schedule.dao;
+package me.ezra.core.domain.schedule;
 
 import me.ezra.core.domain.schedule.domain.Invitation;
 import org.springframework.data.jpa.repository.JpaRepository;
