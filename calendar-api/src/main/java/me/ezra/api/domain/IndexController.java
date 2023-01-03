@@ -1,6 +1,5 @@
 package me.ezra.api.domain;
 
-import me.ezra.api.domain.schedule.dto.InvitationResponse;
 import me.ezra.core.domain.schedule.dto.RequestReplyType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

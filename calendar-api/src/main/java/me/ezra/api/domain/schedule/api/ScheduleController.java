@@ -23,6 +23,9 @@ public class ScheduleController {
     private final EventService eventService;
     private final NotificationService notificationService;
     private final InvitationService invitationService;
+
+    private final ShareService shareService;
+
     @PostMapping("/task")
     public ResponseEntity<Void> createTask(
             @Valid @RequestBody CreateTaskReq createTaskReq,
@@ -55,8 +58,8 @@ public class ScheduleController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             AuthUser authUser
     ) {
-        return scheduleQueryService.getScheduleByDay(date == null ? LocalDate.now() :
-                date, authUser);
+        return scheduleQueryService.getScheduleByDay(
+                date == null ? LocalDate.now() : date, authUser);
     }
 
     @GetMapping("/week")
@@ -77,12 +80,32 @@ public class ScheduleController {
                 YearMonth.now() : yearMonth, authUser);
     }
 
+
+
     @PutMapping("/events/invitations/{invitationId}")
     public RequestStatus updateInvitationStatus(
             AuthUser authUser,
             @PathVariable Long invitationId,
-            @RequestBody @Valid InvitationResponse invitationResponse
+            @RequestBody @Valid ReplyReq invitationResponse
     ) {
-        return invitationService.updateInvitationStatus(authUser, invitationId, invitationResponse.getType());
+        return invitationService.updateInvitationStatus(authUser, invitationId,
+                invitationResponse.getType());
+    }
+
+    @PostMapping("/shares")
+    public void shareSchedule(
+            AuthUser authUser,
+            @Valid @RequestBody CreateShareReq req
+    ) {
+        shareService.createShare(authUser, req);
+    }
+
+    @PutMapping("/shares/{shareId}")
+    public void replyToShareRequest(
+            AuthUser authUser,
+            @PathVariable Long shareId,
+            @RequestBody @Valid ReplyReq replyReq
+    )  {
+        shareService.replyToShareRequest(shareId, authUser, replyReq.getType());
     }
 }

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InvitationResponse {
+public class ReplyReq {
 
     @NotNull
     private RequestReplyType type;

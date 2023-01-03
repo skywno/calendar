@@ -3,6 +3,7 @@ package me.ezra.api.domain.email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ezra.core.domain.email.SendMailBatchReq;
+import me.ezra.core.domain.schedule.domain.Share;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -52,5 +53,11 @@ public class RealEmailServiceImpl implements EmailService {
                             sendMailBatchReq.getTitle()));
         };
         emailSender.send(preparator);
+    }
+
+    @Override
+    public void sendShareRequestMail(String email, String name,
+                                     Share.Direction direction) {
+        System.out.println("send share request email. " + email + ", " + name + ", " + direction);
     }
 }
